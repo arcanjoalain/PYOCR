@@ -1,0 +1,85 @@
+﻿{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "OCR API",
+    "description": "API para processamento de imagens de dispositivos médicos e extração de dados específicos."
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/process-image": {
+      "post": {
+        "summary": "Processar imagem de dispositivo médico",
+        "description": "Recebe uma imagem de um glicosímetro ou medidor de pressão, identifica o dispositivo e extrai os dados específicos da tela.",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "image",
+            "in": "formData",
+            "description": "Imagem do dispositivo (PNG ou JPG)",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados extraídos com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "device": {
+                  "type": "string",
+                  "example": "Glicosímetro"
+                },
+                "data": {
+                  "type": "object",
+                  "example": {
+                    "glucose_level": "120",
+                    "unit": "mg/dL"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Nenhuma imagem enviada."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno no servidor",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "error": {
+                  "type": "string",
+                  "example": "Erro ao processar a imagem."
+                },
+                "details": {
+                  "type": "string",
+                  "example": "Detalhes do erro."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

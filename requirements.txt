@@ -1,0 +1,5 @@
+﻿flask
+flask-swagger-ui
+pytesseract
+pillow
+flask-cors
